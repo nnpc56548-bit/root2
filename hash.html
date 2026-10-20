@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Password maker - Fees Ledger</title><link rel="stylesheet" href="css/style.css"></head><body>
+<div class="ctr"><h1>Password maker</h1><p class="mu">Make a scrambled fingerprint for js/config.js</p>
+<div class="card"><label>New password (use 10+ characters, mixed)</label><input id="pw" type="text" autocomplete="off"><button class="pri" id="go">Make fingerprint</button>
+<label>Copy this into js/config.js (replace the admin or bursar line)</label><textarea id="out" readonly></textarea>
+<div class="mu">Nothing you type here is sent anywhere. Do not use a password you use elsewhere.</div></div></div>
+<script src="js/config.js"></script><script src="js/auth.js"></script>
+<script>document.getElementById('go').onclick=function(){var pw=document.getElementById('pw').value;if(pw.length<8){document.getElementById('out').value='Use at least 8 characters.';return}
+var a=new Uint8Array(8);crypto.getRandomValues(a);var salt=Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2)}).join('');
+Auth.derive(pw,salt,function(h){document.getElementById('out').value=h?"{salt:'"+salt+"',hash:'"+h+"'}":'This browser cannot make the fingerprint. Use an up-to-date Chrome over https.'})};</script></body></html>
